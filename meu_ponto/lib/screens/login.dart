@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meu_ponto/models/usuario.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -6,13 +7,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+    final _usuario = new Usuario();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-        child: Column(
-          children: <Widget>[
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Column(children: <Widget>[
             HeaderLogin(),
             Center(
                 child: Padding(
@@ -29,10 +31,8 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ))
-          ],
-        ),
-      ),
-    );
+          ]),
+        ));
   }
 }
 
@@ -48,14 +48,21 @@ class HeaderLogin extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                "Bem-Vindo ao Meu Ponto!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20),
+              Icon(
+                Icons.access_time,
+                size: 100,
+                color: Colors.white,
               ),
+              Padding(
+                  padding: EdgeInsets.only(top: 30),
+                  child: Text(
+                    "Bem - Vindo ao Meu Ponto!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 20),
+                  )),
               Padding(
                 padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
                 child: Text(
@@ -74,6 +81,7 @@ class InputEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        controller: inputEmailController,
         autofocus: true,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
@@ -116,15 +124,19 @@ class ButtonEntrar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 20),
-        child: ButtonTheme(
-          height: 50,
-          child: RaisedButton(
-            color: Colors.blue,
+        padding: EdgeInsets.symmetric(vertical: 16),
+        child: Material(
+          borderRadius: BorderRadius.circular(30.0),
+          shadowColor: Colors.lightBlueAccent.shade100,
+          elevation: 5.0,
+          child: MaterialButton(
+            minWidth: 200,
+            height: 50,
             onPressed: () => Entrar(),
+            color: Colors.blue,
             child: Text(
               "Entrar",
-              style: new TextStyle(color: Colors.white, fontSize: 16),
+              style: new TextStyle(color: Colors.white),
             ),
           ),
         ));
@@ -159,4 +171,6 @@ class TextCadastreSe extends StatelessWidget {
   }
 }
 
-void Entrar() {}
+void Entrar() {
+  inputEmail.
+}
