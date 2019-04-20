@@ -9,29 +9,30 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              HeaderLogin(),
-              Center(
-                  child: Padding(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    InputEmail(),
-                    InputSenha(),
-                    TextEsqueceuSenha(),
-                    ButtonEntrar(),
-                    TextCadastreSe()
-                  ],
-                ),
-              ))
-            ],
-          ),
-        ));
+      backgroundColor: Colors.white,
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            HeaderLogin(),
+            Center(
+                child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  InputEmail(),
+                  InputSenha(),
+                  TextEsqueceuSenha(),
+                  ButtonEntrar(),
+                  TextCadastreSe()
+                ],
+              ),
+            ))
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -102,7 +103,7 @@ class TextEsqueceuSenha extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 5),
+        padding: EdgeInsets.only(top: 20),
         child: Text(
           "Esqueceu sua senha?",
           textAlign: TextAlign.end,
@@ -115,15 +116,15 @@ class ButtonEntrar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 15),
+        padding: EdgeInsets.only(top: 20),
         child: ButtonTheme(
           height: 50,
           child: RaisedButton(
             color: Colors.blue,
-            onPressed: () => {},
+            onPressed: () => Entrar(),
             child: Text(
               "Entrar",
-              style: new TextStyle(color: Colors.white),
+              style: new TextStyle(color: Colors.white, fontSize: 16),
             ),
           ),
         ));
@@ -134,19 +135,22 @@ class TextCadastreSe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 20),      
+        padding: EdgeInsets.only(top: 20),
         child: Center(
-          child: Row(            
+          child: Row(
             children: <Widget>[
               Text(
-                "Ainda não possui uma conta?",                
+                "Ainda não possui uma conta?",
                 style: new TextStyle(color: Colors.grey, fontSize: 15),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(2, 0, 0, 0),
+                padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
                 child: Text(
-                  "Cadastre-se!",                  
-                  style: new TextStyle(color: Colors.blue, fontSize: 16),
+                  "Cadastre-se!",
+                  style: new TextStyle(
+                      color: Colors.blue,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600),
                 ),
               )
             ],
@@ -154,3 +158,5 @@ class TextCadastreSe extends StatelessWidget {
         ));
   }
 }
+
+void Entrar() {}
