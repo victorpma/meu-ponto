@@ -65,12 +65,12 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                         padding: EdgeInsets.symmetric(vertical: 16),
                         child: Material(
-                          borderRadius: BorderRadius.circular(30.0),                          
+                          borderRadius: BorderRadius.circular(30.0),
                           elevation: 5,
-                          color: Colors.blue,                          
-                          child: MaterialButton(                           
+                          color: Colors.blue,
+                          child: MaterialButton(
                             height: 50,
-                            onPressed: () => RealizarLogin(),                            
+                            onPressed: () => RealizarLogin(),
                             child: Text(
                               "Entrar",
                               style: new TextStyle(
@@ -171,8 +171,9 @@ class TextCadastreSe extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
         padding: EdgeInsets.only(top: 20),
-        child: Center(
+        child: Center(          
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
                 "Ainda não possui uma conta?",

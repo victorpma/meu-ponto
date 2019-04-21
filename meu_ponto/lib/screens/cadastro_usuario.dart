@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meu_ponto/models/usuario.dart';
 
 class CadastroUsuarioPage extends StatefulWidget {
   @override
@@ -6,6 +7,16 @@ class CadastroUsuarioPage extends StatefulWidget {
 }
 
 class _CadastroUsuarioPageState extends State<CadastroUsuarioPage> {
+  TextEditingController _nomeController = new TextEditingController();
+  TextEditingController _emailController = new TextEditingController();
+  TextEditingController _senhaController = new TextEditingController();
+  bool _nomeError = false;
+  bool _emailError = false;
+  bool _senhaError = false;
+  String _mensagemErrorNome = "";
+  String _mensagemErrorEmail = "";
+  String _mensagemErrorSenha = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +43,10 @@ class _CadastroUsuarioPageState extends State<CadastroUsuarioPage> {
                         TextFormField(
                           autofocus: true,
                           keyboardType: TextInputType.text,
-                          decoration: InputDecoration(labelText: "Nome"),
+                          decoration: InputDecoration(
+                              labelText: "Nome",
+                              errorText:
+                                  _nomeError ? _mensagemErrorNome : null),
                           style:
                               new TextStyle(color: Colors.blue, fontSize: 16),
                         ),
@@ -41,7 +55,10 @@ class _CadastroUsuarioPageState extends State<CadastroUsuarioPage> {
                           child: TextFormField(
                             autofocus: true,
                             keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(labelText: "Email"),
+                            decoration: InputDecoration(
+                                labelText: "Email",
+                                errorText:
+                                    _emailError ? _mensagemErrorEmail : null),
                             style:
                                 new TextStyle(color: Colors.blue, fontSize: 16),
                           ),
@@ -52,7 +69,10 @@ class _CadastroUsuarioPageState extends State<CadastroUsuarioPage> {
                             autofocus: true,
                             obscureText: true,
                             keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(labelText: "Senha"),
+                            decoration: InputDecoration(
+                                labelText: "Senha",
+                                errorText:
+                                    _senhaError ? _mensagemErrorSenha : null),
                             style:
                                 new TextStyle(color: Colors.blue, fontSize: 16),
                           ),
@@ -70,7 +90,7 @@ class _CadastroUsuarioPageState extends State<CadastroUsuarioPage> {
                                     style: new TextStyle(
                                         color: Colors.white, fontSize: 16),
                                   ),
-                                  onPressed: () => null,
+                                  onPressed: () => RealizarCadastro(),
                                 )))
                       ]),
                 ),
@@ -78,6 +98,38 @@ class _CadastroUsuarioPageState extends State<CadastroUsuarioPage> {
             ),
           ),
         )));
+  }
+
+  void RealizarCadastro() {
+    Usuario usuario = new Usuario();
+    usuario.Nome = _nomeController.text;
+    usuario.Email = _emailController.text;
+    usuario.Senha = _senhaController.text;
+
+    if (usuario.Nome.isEmpty) {
+      _mensagemErrorNome = "Campo Obrigatório!";
+      _nomeError = true;
+    } else {
+      _nomeError = false;
+    }
+
+    if (usuario.Email.isEmpty) {
+      _mensagemErrorEmail = "Campo Obrigatório!";
+      _emailError = true;
+    } else {
+      _emailError = false;
+    }
+
+    if (usuario.Senha.isEmpty) {
+      _mensagemErrorSenha = "Campo Obrigatório!";
+      _senhaError = true;
+    } else {
+      if(usuario.Senha.length < 6){
+        _mensagemErrorSenha = "Senha deve possuir no mínimo 6 caracteres!";
+      _senhaError = true;
+      }
+      _senhaError = false;
+    }
   }
 }
 
