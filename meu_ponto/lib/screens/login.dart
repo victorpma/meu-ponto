@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meu_ponto/screens/principal.dart';
+import 'package:meu_ponto/screens/cadastro_usuario.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -64,17 +65,16 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                         padding: EdgeInsets.symmetric(vertical: 16),
                         child: Material(
-                          borderRadius: BorderRadius.circular(30.0),
-                          shadowColor: Colors.lightBlueAccent.shade100,
-                          elevation: 5.0,
-                          child: MaterialButton(
-                            minWidth: 200,
+                          borderRadius: BorderRadius.circular(30.0),                          
+                          elevation: 5,
+                          color: Colors.blue,                          
+                          child: MaterialButton(                           
                             height: 50,
-                            onPressed: () => RealizarLogin(),
-                            color: Colors.blue,
+                            onPressed: () => RealizarLogin(),                            
                             child: Text(
                               "Entrar",
-                              style: new TextStyle(color: Colors.white),
+                              style: new TextStyle(
+                                  color: Colors.white, fontSize: 16),
                             ),
                           ),
                         )),
@@ -153,44 +153,6 @@ class HeaderLogin extends StatelessWidget {
   }
 }
 
-/*
-class InputEmail extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: _emailController,
-      autofocus: true,
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-          labelText: "Email", labelStyle: new TextStyle(color: Colors.blue)),
-      style: new TextStyle(color: Colors.black, fontSize: 16),
-      validator: (value) {
-        if (value.isEmpty) {
-          return "Campo Obrigatório";
-        }
-      },
-    );
-    return textFormField;
-  }
-}*/
-
-class InputSenha extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(top: 10),
-        child: TextFormField(
-          autofocus: true,
-          obscureText: true,
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-              labelText: "Senha",
-              labelStyle: new TextStyle(color: Colors.blue)),
-          style: TextStyle(color: Colors.black, fontSize: 16),
-        ));
-  }
-}
-
 class TextEsqueceuSenha extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -200,29 +162,6 @@ class TextEsqueceuSenha extends StatelessWidget {
           "Esqueceu sua senha?",
           textAlign: TextAlign.end,
           style: TextStyle(color: Colors.grey, fontSize: 15),
-        ));
-  }
-}
-
-class ButtonEntrar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(vertical: 16),
-        child: Material(
-          borderRadius: BorderRadius.circular(30.0),
-          shadowColor: Colors.lightBlueAccent.shade100,
-          elevation: 5.0,
-          child: MaterialButton(
-            minWidth: 200,
-            height: 50,
-            onPressed: () => null,
-            color: Colors.blue,
-            child: Text(
-              "Entrar",
-              style: new TextStyle(color: Colors.white),
-            ),
-          ),
         ));
   }
 }
@@ -240,15 +179,22 @@ class TextCadastreSe extends StatelessWidget {
                 style: new TextStyle(color: Colors.grey, fontSize: 15),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                child: Text(
-                  "Cadastre-se!",
-                  style: new TextStyle(
-                      color: Colors.blue,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600),
-                ),
-              )
+                  padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                  child: new GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CadastroUsuarioPage()));
+                    },
+                    child: Text(
+                      "Cadastre-se!",
+                      style: new TextStyle(
+                          color: Colors.blue,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ))
             ],
           ),
         ));
