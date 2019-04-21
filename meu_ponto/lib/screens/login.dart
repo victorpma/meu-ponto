@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meu_ponto/models/usuario.dart';
+import 'package:meu_ponto/screens/principal.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -7,7 +7,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-    final _usuario = new Usuario();
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _emailController = new TextEditingController();
+  TextEditingController _senhaController = new TextEditingController();
+  bool _emailError = false;
+  bool _senhaError = false;
+  String _mensagemErrorEmail = "";
+  String _mensagemErrorSenha = "";
 
   @override
   Widget build(BuildContext context) {
@@ -19,20 +25,90 @@ class _LoginPageState extends State<LoginPage> {
             Center(
                 child: Padding(
               padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  InputEmail(),
-                  InputSenha(),
-                  TextEsqueceuSenha(),
-                  ButtonEntrar(),
-                  TextCadastreSe()
-                ],
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    TextFormField(
+                      controller: _emailController,
+                      autofocus: true,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                          labelText: "Email",
+                          labelStyle: new TextStyle(color: Colors.blue),
+                          errorText: _emailError ? _mensagemErrorEmail : null),
+                      style: new TextStyle(color: Colors.black, fontSize: 16),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return "Campo Obrigatório";
+                        }
+                      },
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: TextFormField(
+                          controller: _senhaController,
+                          autofocus: true,
+                          obscureText: true,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                              labelText: "Senha",
+                              labelStyle: new TextStyle(color: Colors.blue),
+                              errorText:
+                                  _senhaError ? _mensagemErrorSenha : null),
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        )),
+                    TextEsqueceuSenha(),
+                    Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        child: Material(
+                          borderRadius: BorderRadius.circular(30.0),
+                          shadowColor: Colors.lightBlueAccent.shade100,
+                          elevation: 5.0,
+                          child: MaterialButton(
+                            minWidth: 200,
+                            height: 50,
+                            onPressed: () => RealizarLogin(),
+                            color: Colors.blue,
+                            child: Text(
+                              "Entrar",
+                              style: new TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        )),
+                    TextCadastreSe()
+                  ],
+                ),
               ),
             ))
           ]),
         ));
+  }
+
+  void RealizarLogin() {
+    setState(() {
+      String email = _emailController.text;
+      String senha = _senhaController.text;
+
+      if (email.isEmpty) {
+        _mensagemErrorEmail = "Campo Obrigatório!";
+        _emailError = true;
+      } else
+        _emailError = false;
+
+      if (senha.isEmpty) {
+        _mensagemErrorSenha = "Campo Obrigatório!";
+        _senhaError = true;
+      } else
+        _senhaError = false;
+
+      if (!_emailError && !_senhaError) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PrincipalPage()));
+      }
+    });
   }
 }
 
@@ -77,18 +153,26 @@ class HeaderLogin extends StatelessWidget {
   }
 }
 
+/*
 class InputEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-        controller: inputEmailController,
-        autofocus: true,
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-            labelText: "Email", labelStyle: new TextStyle(color: Colors.blue)),
-        style: new TextStyle(color: Colors.black, fontSize: 16));
+      controller: _emailController,
+      autofocus: true,
+      keyboardType: TextInputType.emailAddress,
+      decoration: InputDecoration(
+          labelText: "Email", labelStyle: new TextStyle(color: Colors.blue)),
+      style: new TextStyle(color: Colors.black, fontSize: 16),
+      validator: (value) {
+        if (value.isEmpty) {
+          return "Campo Obrigatório";
+        }
+      },
+    );
+    return textFormField;
   }
-}
+}*/
 
 class InputSenha extends StatelessWidget {
   @override
@@ -132,7 +216,7 @@ class ButtonEntrar extends StatelessWidget {
           child: MaterialButton(
             minWidth: 200,
             height: 50,
-            onPressed: () => Entrar(),
+            onPressed: () => null,
             color: Colors.blue,
             child: Text(
               "Entrar",
@@ -169,8 +253,4 @@ class TextCadastreSe extends StatelessWidget {
           ),
         ));
   }
-}
-
-void Entrar() {
-  inputEmail.
 }
