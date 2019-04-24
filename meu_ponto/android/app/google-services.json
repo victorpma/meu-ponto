@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "480527614268",
+    "firebase_url": "https://meuponto-227e2.firebaseio.com",
+    "project_id": "meuponto-227e2",
+    "storage_bucket": "meuponto-227e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480527614268:android:8bf66aed9c90ea18",
+        "android_client_info": {
+          "package_name": "com.example.meuponto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "480527614268-hn45302duonq5tke5ugvs1niv7hkjleg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdYQ3XmlLvSJq6lLk-mkx_19xRo6mABOU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "480527614268-hn45302duonq5tke5ugvs1niv7hkjleg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

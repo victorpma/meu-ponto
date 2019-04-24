@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:meu_ponto/screens/principal.dart';
 import 'package:meu_ponto/screens/cadastro_usuario.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -9,12 +11,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _emailController = new TextEditingController();
-  TextEditingController _senhaController = new TextEditingController();
-  bool _emailError = false;
-  bool _senhaError = false;
-  String _mensagemErrorEmail = "";
-  String _mensagemErrorSenha = "";
+  String _email, _senha;
 
   @override
   Widget build(BuildContext context) {
@@ -33,33 +30,35 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     TextFormField(
-                      controller: _emailController,
                       autofocus: true,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                          labelText: "Email",
-                          labelStyle: new TextStyle(color: Colors.blue),
-                          errorText: _emailError ? _mensagemErrorEmail : null),
+                        labelText: "Email",
+                        labelStyle: new TextStyle(color: Colors.blue),
+                      ),
                       style: new TextStyle(color: Colors.black, fontSize: 16),
                       validator: (value) {
                         if (value.isEmpty) {
                           return "Campo Obrigatório";
                         }
                       },
+                      onSaved: (input) => _email = input,
                     ),
                     Padding(
                         padding: EdgeInsets.only(top: 10),
                         child: TextFormField(
-                          controller: _senhaController,
                           autofocus: true,
                           obscureText: true,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
-                              labelText: "Senha",
-                              labelStyle: new TextStyle(color: Colors.blue),
-                              errorText:
-                                  _senhaError ? _mensagemErrorSenha : null),
+                            labelText: "Senha",
+                            labelStyle: new TextStyle(color: Colors.blue),
+                          ),
                           style: TextStyle(color: Colors.black, fontSize: 16),
+                          validator: (value) {
+                            if (value.isEmpty) return "Campo Obrigatório";
+                          },
+                          onSaved: (input) => _senha = input,
                         )),
                     TextEsqueceuSenha(),
                     Padding(
@@ -70,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.blue,
                           child: MaterialButton(
                             height: 50,
-                            onPressed: () => RealizarLogin(),
+                            onPressed: () => realizarLogin(),
                             child: Text(
                               "Entrar",
                               style: new TextStyle(
@@ -85,30 +84,22 @@ class _LoginPageState extends State<LoginPage> {
             ))
           ]),
         ));
-  }
+  } 
 
-  void RealizarLogin() {
-    setState(() {
-      String email = _emailController.text;
-      String senha = _senhaController.text;
+  Future<void> realizarLogin() async {
+    final formState = _formKey.currentState;
 
-      if (email.isEmpty) {
-        _mensagemErrorEmail = "Campo Obrigatório!";
-        _emailError = true;
-      } else
-        _emailError = false;
-
-      if (senha.isEmpty) {
-        _mensagemErrorSenha = "Campo Obrigatório!";
-        _senhaError = true;
-      } else
-        _senhaError = false;
-
-      if (!_emailError && !_senhaError) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => PrincipalPage()));
+    if (formState.validate()) {
+      formState.save();
+      try {
+        FirebaseUser usuario = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: _email, password: _senha);
+          
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PrincipalPage())); 
+      } catch (exception) {
+        print(exception);
       }
-    });
+    }
   }
 }
 
@@ -171,7 +162,7 @@ class TextCadastreSe extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
         padding: EdgeInsets.only(top: 20),
-        child: Center(          
+        child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
