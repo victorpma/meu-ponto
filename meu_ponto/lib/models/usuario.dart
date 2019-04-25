@@ -1,8 +1,8 @@
 class Usuario {
-  int Id;
-  String Nome;
-  String Email;
-  String Senha;
+  int id;
+  String nome;
+  String email;
+  String senha;
 
   Usuario();
 }

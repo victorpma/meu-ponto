@@ -102,29 +102,29 @@ class _CadastroUsuarioPageState extends State<CadastroUsuarioPage> {
 
   void RealizarCadastro() {
     Usuario usuario = new Usuario();
-    usuario.Nome = _nomeController.text;
-    usuario.Email = _emailController.text;
-    usuario.Senha = _senhaController.text;
+    usuario.nome = _nomeController.text;
+    usuario.email = _emailController.text;
+    usuario.senha = _senhaController.text;
 
-    if (usuario.Nome.isEmpty) {
+    if (usuario.nome.isEmpty) {
       _mensagemErrorNome = "Campo Obrigatório!";
       _nomeError = true;
     } else {
       _nomeError = false;
     }
 
-    if (usuario.Email.isEmpty) {
+    if (usuario.email.isEmpty) {
       _mensagemErrorEmail = "Campo Obrigatório!";
       _emailError = true;
     } else {
       _emailError = false;
     }
 
-    if (usuario.Senha.isEmpty) {
+    if (usuario.senha.isEmpty) {
       _mensagemErrorSenha = "Campo Obrigatório!";
       _senhaError = true;
     } else {
-      if(usuario.Senha.length < 6){
+      if(usuario.senha.length < 6){
         _mensagemErrorSenha = "Senha deve possuir no mínimo 6 caracteres!";
       _senhaError = true;
       }

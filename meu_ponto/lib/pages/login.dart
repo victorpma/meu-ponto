@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:meu_ponto/screens/principal.dart';
-import 'package:meu_ponto/screens/cadastro_usuario.dart';
+import 'package:meu_ponto/pages/principal.dart';
+import 'package:meu_ponto/pages/cadastro_usuario.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:meu_ponto/models/usuario.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -84,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
             ))
           ]),
         ));
-  } 
+  }
 
   Future<void> realizarLogin() async {
     final formState = _formKey.currentState;
@@ -92,12 +93,19 @@ class _LoginPageState extends State<LoginPage> {
     if (formState.validate()) {
       formState.save();
       try {
-        FirebaseUser usuario = await FirebaseAuth.instance
+        Usuario usuario = new Usuario();
+
+        FirebaseUser usuarioFirebase = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _email, password: _senha);
-          
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PrincipalPage())); 
+
+        if (usuarioFirebase != null) {          
+          usuario.email = usuarioFirebase.email;
+        }
+
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomePage(usuario: usuario,)));
       } catch (exception) {
-        print(exception);
+        print(exception.message);
       }
     }
   }
