@@ -34,31 +34,31 @@ class _LoginPageState extends State<LoginPage> {
                       autofocus: true,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        labelText: "Email",
-                        labelStyle: new TextStyle(color: Colors.blue),
+                        icon: new Icon(
+                          Icons.mail,
+                        ),
+                          hintText: 'Email',
+                        labelStyle: new TextStyle(color: Colors.grey),
                       ),
                       style: new TextStyle(color: Colors.black, fontSize: 16),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return "Campo Obrigatório";
-                        }
-                      },
+                      validator: (value) => value.isEmpty ? 'Email não pode estar vazio' : null,
                       onSaved: (input) => _email = input,
                     ),
                     Padding(
                         padding: EdgeInsets.only(top: 10),
                         child: TextFormField(
-                          autofocus: true,
+                          autofocus: true, 
                           obscureText: true,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
-                            labelText: "Senha",
-                            labelStyle: new TextStyle(color: Colors.blue),
+                            icon: new Icon(
+                              Icons.lock,  
+                            ),
+                            hintText: 'Senha',
+                            labelStyle: new TextStyle(color: Colors.grey),
                           ),
                           style: TextStyle(color: Colors.black, fontSize: 16),
-                          validator: (value) {
-                            if (value.isEmpty) return "Campo Obrigatório";
-                          },
+                          validator: (value) => value.isEmpty ? 'Senha não pode estar vazia' : null,
                           onSaved: (input) => _senha = input,
                         )),
                     TextEsqueceuSenha(),
