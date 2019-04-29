@@ -1,15 +1,89 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:meu_ponto/models/usuario.dart';
+import 'package:meu_ponto/dialogs/bater_ponto.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key, @required this.usuario}) : super(key: key);
-  final Usuario usuario;
+  final Usuario usuario;  
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  BaterPonto _baterPonto = new BaterPonto();
+  String _dataAtual;
+  String _horaAtual;
+  TimeOfDay _hora;
+
+  @override
+  void initState() {
+    Timer.periodic(Duration(seconds: 1), (Timer t) => _obterHoraAtual());
+    _obterDataAtual();    
+    super.initState();
+  }
+
+  _obterDataAtual() {
+    setState(() {
+      this._dataAtual =
+          "${_obterDescricaoDia(DateTime.now().weekday)}, ${DateTime.now().day.toString().padLeft(2, '0')}/${DateTime.now().month.toString().padLeft(2, '0')}/${DateTime.now().year}";
+    });
+  }
+
+  _obterHoraAtual() {
+    setState(() {
+      this._horaAtual =
+          "${DateTime.now().hour}:${DateTime.now().minute}:${_formatarSegundo()}";
+    });
+  }
+
+  String _obterDescricaoDia(int dia) {
+    switch (dia) {
+      case DateTime.sunday:
+        return "Domingo";
+        break;
+      case DateTime.monday:
+        return "Segunda";
+        break;
+      case DateTime.tuesday:
+        return "Terça";
+        break;
+      case DateTime.wednesday:
+        return "Quarta";
+        break;
+      case DateTime.thursday:
+        return "Terça";
+        break;
+      case DateTime.friday:
+        return "Terça";
+        break;
+      case DateTime.saturday:
+        return "Sábado";
+        break;
+      default:
+        return "Erro";
+    }
+  }
+
+  String _formatarSegundo() {
+    return DateTime.now().second < 10
+        ? "0" + DateTime.now().second.toString()
+        : DateTime.now().second.toString();
+  }
+
+  Future<Null> _timePicker(BuildContext context) async {
+    TimeOfDay _horaAtual = new TimeOfDay.now();
+    final TimeOfDay _horaSelecionada = await showTimePicker(
+      context: context,
+      initialTime: _horaAtual,
+    );
+
+    if (_horaSelecionada != null) {
+      _hora = _horaSelecionada;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,11 +135,11 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  "Quarta-Feira 24/04/2019",
+                  _dataAtual,
                   style: new TextStyle(color: Colors.white, fontSize: 16),
                 ),
                 Text(
-                  "21:31:00",
+                  _horaAtual,
                   style: new TextStyle(
                       color: Colors.white,
                       fontSize: 40,
@@ -163,7 +237,7 @@ class _HomePageState extends State<HomePage> {
                           elevation: 5,
                           child: MaterialButton(
                             height: 60,
-                            onPressed: () => null,
+                            onPressed: () => _timePicker(context),
                             child: Text(
                               "ENTRADA",
                               style: TextStyle(
@@ -259,15 +333,5 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
-  }
-}
-
-class imagemBiometria extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    AssetImage assetBiometria = AssetImage('images/biometria.png');
-    Image imagemBiometria = Image(image: assetBiometria);
-
-    return Container(child: imagemBiometria);
   }
 }

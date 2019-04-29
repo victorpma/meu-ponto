@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
         }
 
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage(usuario: usuario,)));
+            context, MaterialPageRoute(builder: (context) => HomePage(usuario: usuario)));
       } catch (exception) {
         print(exception.message);
       }
