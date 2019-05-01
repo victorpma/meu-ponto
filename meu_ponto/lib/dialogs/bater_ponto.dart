@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-class BaterPonto {
-  TimeOfDay _hora;
+class BaterPonto { 
 
   information(BuildContext context, String tipoPonto) {
     return showDialog(

@@ -90,7 +90,7 @@ class _CadastroUsuarioPageState extends State<CadastroUsuarioPage> {
                                     style: new TextStyle(
                                         color: Colors.white, fontSize: 16),
                                   ),
-                                  onPressed: () => RealizarCadastro(),
+                                  onPressed: () => realizarCadastro(),
                                 )))
                       ]),
                 ),
@@ -100,7 +100,7 @@ class _CadastroUsuarioPageState extends State<CadastroUsuarioPage> {
         )));
   }
 
-  void RealizarCadastro() {
+  void realizarCadastro() {
     Usuario usuario = new Usuario();
     usuario.nome = _nomeController.text;
     usuario.email = _emailController.text;

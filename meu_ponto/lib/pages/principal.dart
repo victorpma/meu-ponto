@@ -19,8 +19,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    Timer.periodic(Duration(seconds: 1), (Timer t) => _obterHoraAtual());
-    _obterDataAtual();    
+    _obterDataAtual();  
+    _obterHoraAtual();
+
+    Timer.periodic(Duration(seconds: 1), (Timer t) => _obterHoraAtual());      
     super.initState();
   }
 
