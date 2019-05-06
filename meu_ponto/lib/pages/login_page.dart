@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:meu_ponto/pages/principal.dart';
-import 'package:meu_ponto/pages/cadastro_usuario.dart';
+import 'package:meu_ponto/pages/principal_page.dart';
+import 'package:meu_ponto/pages/cadastro_usuario_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:meu_ponto/models/usuario.dart';
+import 'package:meu_ponto/models/usuario_model.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -37,28 +37,31 @@ class _LoginPageState extends State<LoginPage> {
                         icon: new Icon(
                           Icons.mail,
                         ),
-                          hintText: 'Email',
+                        hintText: 'Email',
                         labelStyle: new TextStyle(color: Colors.grey),
                       ),
                       style: new TextStyle(color: Colors.black, fontSize: 16),
-                      validator: (value) => value.isEmpty ? 'Email não pode estar vazio' : null,
+                      validator: (value) =>
+                          value.isEmpty ? 'Email não pode estar vazio' : null,
                       onSaved: (input) => _email = input,
                     ),
                     Padding(
                         padding: EdgeInsets.only(top: 10),
                         child: TextFormField(
-                          autofocus: true, 
+                          autofocus: true,
                           obscureText: true,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                             icon: new Icon(
-                              Icons.lock,  
+                              Icons.lock,
                             ),
                             hintText: 'Senha',
                             labelStyle: new TextStyle(color: Colors.grey),
                           ),
                           style: TextStyle(color: Colors.black, fontSize: 16),
-                          validator: (value) => value.isEmpty ? 'Senha não pode estar vazia' : null,
+                          validator: (value) => value.isEmpty
+                              ? 'Senha não pode estar vazia'
+                              : null,
                           onSaved: (input) => _senha = input,
                         )),
                     TextEsqueceuSenha(),
@@ -89,21 +92,22 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> realizarLogin() async {
     final formState = _formKey.currentState;
+    Usuario usuario;
 
     if (formState.validate()) {
       formState.save();
       try {
-        Usuario usuario = new Usuario();
-
         FirebaseUser usuarioFirebase = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _email, password: _senha);
 
-        if (usuarioFirebase != null) {          
-          usuario.email = usuarioFirebase.email;
+        if (usuarioFirebase != null) {
+          usuario = new Usuario(usuarioFirebase.email);
         }
 
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage(usuario: usuario)));
+            context,
+            MaterialPageRoute(
+                builder: (context) => HomePage(usuario: usuario)));
       } catch (exception) {
         print(exception.message);
       }

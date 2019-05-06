@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meu_ponto/models/usuario.dart';
+import 'package:meu_ponto/models/usuario_model.dart';
 
 class CadastroUsuarioPage extends StatefulWidget {
   @override
@@ -101,10 +101,11 @@ class _CadastroUsuarioPageState extends State<CadastroUsuarioPage> {
   }
 
   void realizarCadastro() {
-    Usuario usuario = new Usuario();
-    usuario.nome = _nomeController.text;
-    usuario.email = _emailController.text;
-    usuario.senha = _senhaController.text;
+    var nome = _nomeController.text;
+    var email = _emailController.text;
+    var senha = _senhaController.text;
+
+    Usuario usuario = new Usuario(email);
 
     if (usuario.nome.isEmpty) {
       _mensagemErrorNome = "Campo Obrigatório!";
@@ -124,9 +125,9 @@ class _CadastroUsuarioPageState extends State<CadastroUsuarioPage> {
       _mensagemErrorSenha = "Campo Obrigatório!";
       _senhaError = true;
     } else {
-      if(usuario.senha.length < 6){
+      if (usuario.senha.length < 6) {
         _mensagemErrorSenha = "Senha deve possuir no mínimo 6 caracteres!";
-      _senhaError = true;
+        _senhaError = true;
       }
       _senhaError = false;
     }

@@ -1,17 +1,22 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:meu_ponto/models/usuario.dart';
+import 'package:meu_ponto/models/usuario_model.dart';
+import 'package:meu_ponto/models/ponto_model.dart';
 import 'package:meu_ponto/dialogs/bater_ponto.dart';
+import 'package:meu_ponto/utils/database_helper.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:meu_ponto/pages/listar_ponto_dia_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key, @required this.usuario}) : super(key: key);
-  final Usuario usuario;  
+  final Usuario usuario;
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  DatabaseHelper databaseHelper = new DatabaseHelper();
   BaterPonto _baterPonto = new BaterPonto();
   String _dataAtual;
   String _horaAtual;
@@ -19,10 +24,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _obterDataAtual();  
+    _obterDataAtual();
     _obterHoraAtual();
 
-    Timer.periodic(Duration(seconds: 1), (Timer t) => _obterHoraAtual());      
+    Timer.periodic(Duration(seconds: 1), (Timer t) => _obterHoraAtual());
     super.initState();
   }
 
@@ -83,6 +88,23 @@ class _HomePageState extends State<HomePage> {
 
     if (_horaSelecionada != null) {
       _hora = _horaSelecionada;
+
+      var db = new DatabaseHelper();
+
+      Ponto novoPonto = new Ponto("E", DateTime.now().toString(), _hora.toString());
+
+      int pontoCadastrado = await db.inserirPonto(novoPonto);
+
+      if (pontoCadastrado > 0) {
+        Fluttertoast.showToast(
+            msg: "Ponto cadastrado com sucesso!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIos: 1,
+            backgroundColor: Colors.grey,
+            textColor: Colors.white,
+            fontSize: 16);
+      }
     }
   }
 
@@ -105,6 +127,15 @@ class _HomePageState extends State<HomePage> {
               trailing: new Icon(Icons.access_alarm),
               title: new Text("Bater Ponto"),
             ),
+            new ListTile(
+                trailing: new Icon(Icons.calendar_view_day),
+                title: new Text("Por Dia"),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ListarPontoDia()));
+                }),
             new ListTile(
               trailing: new Icon(Icons.history),
               title: new Text("Histórico de Pontos"),
