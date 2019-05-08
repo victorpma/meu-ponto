@@ -17,7 +17,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   DatabaseHelper databaseHelper = new DatabaseHelper();
-  BaterPonto _baterPonto = new BaterPonto();
   String _dataAtual;
   String _horaAtual;
   TimeOfDay _hora;
@@ -79,7 +78,7 @@ class _HomePageState extends State<HomePage> {
         : DateTime.now().second.toString();
   }
 
-  Future<Null> _timePicker(BuildContext context) async {
+  Future<Null> _baterPonto(BuildContext context, String tpPonto) async {
     TimeOfDay _horaAtual = new TimeOfDay.now();
     final TimeOfDay _horaSelecionada = await showTimePicker(
       context: context,
@@ -91,7 +90,8 @@ class _HomePageState extends State<HomePage> {
 
       var db = new DatabaseHelper();
 
-      Ponto novoPonto = new Ponto("E", DateTime.now().toString(), _hora.toString());
+      Ponto novoPonto = new Ponto(tpPonto, DateTime.now().toString(),
+          "${_hora.hour.toString()}:${_hora.minute.toString()}");
 
       int pontoCadastrado = await db.inserirPonto(novoPonto);
 
@@ -270,7 +270,7 @@ class _HomePageState extends State<HomePage> {
                           elevation: 5,
                           child: MaterialButton(
                             height: 60,
-                            onPressed: () => _timePicker(context),
+                            onPressed: () => _baterPonto(context, "E"),
                             child: Text(
                               "ENTRADA",
                               style: TextStyle(
@@ -289,7 +289,7 @@ class _HomePageState extends State<HomePage> {
                           elevation: 5,
                           child: MaterialButton(
                             height: 60,
-                            onPressed: () => null,
+                            onPressed: () => _baterPonto(context, "S"),
                             child: Text(
                               "SAÍDA",
                               style: TextStyle(

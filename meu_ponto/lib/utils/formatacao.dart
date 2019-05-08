@@ -1,7 +1,7 @@
 class Formatacao {
   Formatacao();
 
-  String _obterDescricaoDia(int dia) {
+  String obterDescricaoDia(int dia) {
     switch (dia) {
       case DateTime.sunday:
         return "Domingo";
@@ -27,5 +27,25 @@ class Formatacao {
       default:
         return "Erro";
     }
+  }
+
+  String obterDataFormatadaBrasil(DateTime data) {
+    String dataFormatada = "";
+
+    if (data != null) {
+      String dia = data.day.toInt() < 10
+          ? "0${data.day.toString()}"
+          : data.day.toString();
+
+      String mes = data.month.toInt() < 10
+          ? "0${data.month.toString()}"
+          : data.month.toString();
+
+      String ano = data.year.toString();
+
+      dataFormatada = "${dia}/${mes}/${ano}";
+    }
+
+    return dataFormatada;
   }
 }
