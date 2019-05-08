@@ -6,6 +6,7 @@ import 'package:meu_ponto/dialogs/bater_ponto.dart';
 import 'package:meu_ponto/utils/database_helper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meu_ponto/pages/listar_ponto_dia_page.dart';
+import 'package:meu_ponto/utils/formatacao.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key, @required this.usuario}) : super(key: key);
@@ -14,6 +15,8 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
+
+Formatacao formatacao;
 
 class _HomePageState extends State<HomePage> {
   DatabaseHelper databaseHelper = new DatabaseHelper();
@@ -32,8 +35,7 @@ class _HomePageState extends State<HomePage> {
 
   _obterDataAtual() {
     setState(() {
-      this._dataAtual =
-          "${_obterDescricaoDia(DateTime.now().weekday)}, ${DateTime.now().day.toString().padLeft(2, '0')}/${DateTime.now().month.toString().padLeft(2, '0')}/${DateTime.now().year}";
+      this._dataAtual = formatacao.obterDataFormatadaBrasil(DateTime.now());
     });
   }
 
@@ -42,34 +44,6 @@ class _HomePageState extends State<HomePage> {
       this._horaAtual =
           "${DateTime.now().hour}:${DateTime.now().minute}:${_formatarSegundo()}";
     });
-  }
-
-  String _obterDescricaoDia(int dia) {
-    switch (dia) {
-      case DateTime.sunday:
-        return "Domingo";
-        break;
-      case DateTime.monday:
-        return "Segunda";
-        break;
-      case DateTime.tuesday:
-        return "Terça";
-        break;
-      case DateTime.wednesday:
-        return "Quarta";
-        break;
-      case DateTime.thursday:
-        return "Terça";
-        break;
-      case DateTime.friday:
-        return "Terça";
-        break;
-      case DateTime.saturday:
-        return "Sábado";
-        break;
-      default:
-        return "Erro";
-    }
   }
 
   String _formatarSegundo() {

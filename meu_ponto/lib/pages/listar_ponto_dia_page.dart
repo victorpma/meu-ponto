@@ -67,7 +67,7 @@ class _ListarPontoDiaState extends State<ListarPontoDia> {
                   ),
                   Expanded(
                       child: Text(
-                    formatacao.obterDescricaoDia(_dataSelecionada.day.toInt()) +
+                    formatacao.obterDescricaoDia(_dataSelecionada.weekday) +
                         ", " +
                         formatacao.obterDataFormatadaBrasil(_dataSelecionada),
                     style: TextStyle(fontSize: 16, color: Colors.black),

@@ -34,11 +34,11 @@ class Formatacao {
 
     if (data != null) {
       String dia = data.day.toInt() < 10
-          ? "0${data.day.toString()}"
+          ? data.day.toString().padLeft(2, '0')
           : data.day.toString();
 
       String mes = data.month.toInt() < 10
-          ? "0${data.month.toString()}"
+          ? data.month.toString().padLeft(2, '0')
           : data.month.toString();
 
       String ano = data.year.toString();
