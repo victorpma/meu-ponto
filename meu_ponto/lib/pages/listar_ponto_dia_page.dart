@@ -14,14 +14,18 @@ class ListarPontoDia extends StatefulWidget {
 }
 
 class _ListarPontoDiaState extends State<ListarPontoDia> {
-  List<Ponto> _pontosPorDia;
+  List<Ponto> _pontosPorDia = new List<Ponto>();
+  String _horasTrabalhadas = "00:00";
+
   DatabaseHelper db = new DatabaseHelper();
 
   @override
   void initState() {
     _dataSelecionada = DateTime.now();
 
-    atualizarListView(_dataSelecionada);
+    _atualizarListView(_dataSelecionada);
+    _atualizarHorasTrabalhadas();
+
     super.initState();
   }
 
@@ -30,10 +34,11 @@ class _ListarPontoDiaState extends State<ListarPontoDia> {
       _dataSelecionada = novaData;
     });
 
-    atualizarListView(novaData);
+    _atualizarListView(novaData);
+    _atualizarHorasTrabalhadas();
   }
 
-  void atualizarListView(DateTime dataSelecionada) {
+  void _atualizarListView(DateTime dataSelecionada) {
     final Future<Database> dbFuture = db.inicializarBD();
     dbFuture.then((database) {
       Future<List<Ponto>> pontosFuture = db.obterPontosPorData(dataSelecionada);
@@ -42,6 +47,23 @@ class _ListarPontoDiaState extends State<ListarPontoDia> {
           this._pontosPorDia = pontosList;
         });
       });
+    });
+  }
+
+  void _atualizarHorasTrabalhadas() {
+    int somatarioHorasSaida = 0;
+    int somatarioHorasEntrada = 0;
+
+    _pontosPorDia.where((p) => p.tpPonto == "S").forEach((ponto) =>
+        somatarioHorasSaida += (int.parse(ponto.hrPonto.replaceAll(':', ''))));
+
+    _pontosPorDia.where((p) => p.tpPonto == "E").forEach((ponto) =>
+        somatarioHorasEntrada +=
+            (int.parse(ponto.hrPonto.replaceAll(':', ''))));
+
+    setState(() {
+      _horasTrabalhadas =
+          (somatarioHorasSaida - somatarioHorasEntrada).toString();
     });
   }
 
@@ -116,7 +138,8 @@ class _ListarPontoDiaState extends State<ListarPontoDia> {
                       new Text(
                         "Horas Trabalhadas:",
                         style: TextStyle(color: Colors.white, fontSize: 16),
-                      )
+                      ),
+                      Text(_horasTrabalhadas)
                     ],
                   ),
                   new Row(

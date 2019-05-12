@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:meu_ponto/models/ponto_model.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:intl/intl.dart';
 
 class DatabaseHelper {
   final String tabelaPonto = "PONTO";
@@ -52,6 +53,7 @@ class DatabaseHelper {
 
     int resultado = await bd.insert("$tabelaPonto", ponto.toMap());
 
+    fechar();
     return resultado;
   }
 
@@ -60,7 +62,14 @@ class DatabaseHelper {
 
     var bd = await this.db;
 
-    var resultado = await bd.query("$tabelaPonto");
+    var formatoData = new DateFormat("yyyy-MM-dd");
+
+    var dataFormatada = formatoData.format(data);
+
+    var resultado = await bd.query("$tabelaPonto",
+        columns: [colunaCodigoPonto, colunaTipoPonto, colunaHoraPonto],
+        where: "strftime('%Y-%m-%d', $colunaDataPonto) = ?",
+        whereArgs: [dataFormatada]);
 
     if (resultado.isNotEmpty) {
       for (int i = 0; i <= resultado.length - 1; i++) {
@@ -68,6 +77,7 @@ class DatabaseHelper {
       }
     }
 
+    fechar();
     return pontos;
   }
 

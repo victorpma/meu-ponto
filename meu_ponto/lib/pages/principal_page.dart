@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
       var db = new DatabaseHelper();
 
       Ponto novoPonto = new Ponto(tpPonto, DateTime.now().toString(),
-          "${_hora.hour.toString()}:${_hora.minute.toString()}");
+          formatacao.formatarHora(_hora.hour, _hora.minute));
 
       int pontoCadastrado = await db.inserirPonto(novoPonto);
 

@@ -43,9 +43,18 @@ class Formatacao {
 
       String ano = data.year.toString();
 
-      dataFormatada = dia + "/" + mes + "/" + "/" + ano;
+      dataFormatada = dia + "/" + mes + "/" + ano;
     }
 
     return dataFormatada;
+  }
+
+  String formatarHora(int hora, int minutos) {
+    String horaFormatada =
+        hora < 10 ? hora.toString().padLeft(2, '0') : hora.toString();
+    String minutosFormatado =
+        minutos < 10 ? minutos.toString().padLeft(2, '0') : minutos.toString();
+
+    return horaFormatada + ":" + minutosFormatado;
   }
 }
