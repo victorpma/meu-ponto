@@ -6,8 +6,6 @@ import 'package:meu_ponto/models/ponto_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
-  static DatabaseHelper _databaseHelper;
-  static Database _database;
   final String tabelaPonto = "PONTO";
   final String colunaCodigoPonto = "CD_PONTO";
   final String colunaDataPonto = "DT_PONTO";
@@ -62,11 +60,10 @@ class DatabaseHelper {
 
     var bd = await this.db;
 
-    var resultado =
-        await bd.query("$tabelaPonto");
+    var resultado = await bd.query("$tabelaPonto");
 
-    if (!resultado.isEmpty) {
-      for (int i = 0; i <= resultado.length-1; i++) {
+    if (resultado.isNotEmpty) {
+      for (int i = 0; i <= resultado.length - 1; i++) {
         pontos.add(Ponto.map(resultado[i]));
       }
     }

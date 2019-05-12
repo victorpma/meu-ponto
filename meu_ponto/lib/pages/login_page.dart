@@ -4,6 +4,7 @@ import 'package:meu_ponto/pages/principal_page.dart';
 import 'package:meu_ponto/pages/cadastro_usuario_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meu_ponto/models/usuario_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -97,12 +98,16 @@ class _LoginPageState extends State<LoginPage> {
     if (formState.validate()) {
       formState.save();
       try {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
         FirebaseUser usuarioFirebase = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _email, password: _senha);
 
         if (usuarioFirebase != null) {
           usuario = new Usuario(usuarioFirebase.email);
         }
+
+        prefs.setBool("Logado", true);
+        prefs.commit();
 
         Navigator.push(
             context,

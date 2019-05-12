@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:meu_ponto/models/usuario_model.dart';
 import 'package:meu_ponto/models/ponto_model.dart';
-import 'package:meu_ponto/dialogs/bater_ponto.dart';
 import 'package:meu_ponto/utils/database_helper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meu_ponto/pages/listar_ponto_dia_page.dart';
@@ -35,6 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   _obterDataAtual() {
     setState(() {
+      formatacao = new Formatacao();
       this._dataAtual = formatacao.obterDataFormatadaBrasil(DateTime.now());
     });
   }

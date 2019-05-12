@@ -6,7 +6,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:meu_ponto/models/ponto_model.dart';
 
 DateTime _dataSelecionada;
-String _textDisplayDataSelecionada;
 Formatacao formatacao = new Formatacao();
 
 class ListarPontoDia extends StatefulWidget {

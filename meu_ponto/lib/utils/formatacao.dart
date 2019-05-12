@@ -43,7 +43,7 @@ class Formatacao {
 
       String ano = data.year.toString();
 
-      dataFormatada = "${dia}/${mes}/${ano}";
+      dataFormatada = dia + "/" + mes + "/" + "/" + ano;
     }
 
     return dataFormatada;
