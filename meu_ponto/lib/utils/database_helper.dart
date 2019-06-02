@@ -53,7 +53,6 @@ class DatabaseHelper {
 
     int resultado = await bd.insert("$tabelaPonto", ponto.toMap());
 
-    fechar();
     return resultado;
   }
 
@@ -77,8 +76,21 @@ class DatabaseHelper {
       }
     }
 
-    fechar();
     return pontos;
+  }
+
+  Future<int> obterHorasTotais() async {
+    var bd = await this.db;
+
+    var resultado =
+        await bd.query("$tabelaPonto", columns: ["$colunaHoraPonto"]);
+
+    int hora = 0;
+    if (resultado.isNotEmpty) {
+      resultado.forEach((ponto) => print(ponto));
+    }
+
+    return hora;
   }
 
   Future fechar() async {

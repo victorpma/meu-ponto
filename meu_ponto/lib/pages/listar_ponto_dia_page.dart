@@ -35,7 +35,6 @@ class _ListarPontoDiaState extends State<ListarPontoDia> {
     });
 
     _atualizarListView(novaData);
-    _atualizarHorasTrabalhadas();
   }
 
   void _atualizarListView(DateTime dataSelecionada) {
@@ -45,12 +44,13 @@ class _ListarPontoDiaState extends State<ListarPontoDia> {
       pontosFuture.then((pontosList) {
         setState(() {
           this._pontosPorDia = pontosList;
+          _atualizarHorasTrabalhadas();
         });
       });
     });
   }
 
-  void _atualizarHorasTrabalhadas() {
+  void _atualizarHorasTrabalhadas() async {
     int somatarioHorasSaida = 0;
     int somatarioHorasEntrada = 0;
 
@@ -61,10 +61,19 @@ class _ListarPontoDiaState extends State<ListarPontoDia> {
         somatarioHorasEntrada +=
             (int.parse(ponto.hrPonto.replaceAll(':', ''))));
 
-    setState(() {
-      _horasTrabalhadas =
-          (somatarioHorasSaida - somatarioHorasEntrada).toString();
-    });
+    if (somatarioHorasSaida != 0 && somatarioHorasEntrada != 0) {
+      var horas = (somatarioHorasSaida - somatarioHorasEntrada)
+          .toString()
+          .padLeft(4, '0');
+
+      horas = horas.substring(0, 2) + ":" + horas.substring(2, 4);
+
+      setState(() {
+        _horasTrabalhadas = horas;
+      });
+    } else {
+      _horasTrabalhadas = "00:00";
+    }
   }
 
   @override
@@ -139,7 +148,11 @@ class _ListarPontoDiaState extends State<ListarPontoDia> {
                         "Horas Trabalhadas:",
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
-                      Text(_horasTrabalhadas)
+                      Text(_horasTrabalhadas,
+                          style: new TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold))
                     ],
                   ),
                   new Row(

@@ -21,12 +21,14 @@ class _HomePageState extends State<HomePage> {
   DatabaseHelper databaseHelper = new DatabaseHelper();
   String _dataAtual;
   String _horaAtual;
+  String _saldoHorasTotal;
   TimeOfDay _hora;
 
   @override
   void initState() {
     _obterDataAtual();
     _obterHoraAtual();
+    _obterHorasSaldoTotal();
 
     Timer.periodic(Duration(seconds: 1), (Timer t) => _obterHoraAtual());
     super.initState();
@@ -43,6 +45,13 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       this._horaAtual =
           "${DateTime.now().hour}:${DateTime.now().minute}:${_formatarSegundo()}";
+    });
+  }
+
+  _obterHorasSaldoTotal() {
+    setState(() {
+      databaseHelper.obterHorasTotais();
+      //this._saldoHorasTotal =
     });
   }
 
